@@ -182,6 +182,22 @@ local WriteValueByTypeTable = {
 		Buffer:WriteFloat32(Value.Y)
 		Buffer:WriteFloat32(Value.Z)
 	end,
+	["CFrame"] = function(Buffer, Value, _)
+		local x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22 = Value:GetComponents()
+		
+		Buffer:WriteFloat32(x)
+		Buffer:WriteFloat32(y)
+		Buffer:WriteFloat32(z)
+		Buffer:WriteFloat32(r00)
+		Buffer:WriteFloat32(r01)
+		Buffer:WriteFloat32(r02)
+		Buffer:WriteFloat32(r10)
+		Buffer:WriteFloat32(r11)
+		Buffer:WriteFloat32(r12)
+		Buffer:WriteFloat32(r20)
+		Buffer:WriteFloat32(r21)
+		Buffer:WriteFloat32(r22)
+	end,
 	["UDim2"] = function(Buffer, Value: UDim2, Argument)
 		Buffer:WriteFloat32(Value.X.Scale)
 		Buffer:WriteInt(32, Value.X.Offset)
@@ -286,6 +302,14 @@ local GetDeserializedValueTable = {
 		local Y = Buffer:ReadFloat32()
 		local Z = Buffer:ReadFloat32()
 		return Vector3.new(X, Y, Z)
+	end,
+	["CFrame"] = function(Buffer, _)
+		local x, y, z = Buffer:ReadFloat32(), Buffer:ReadFloat32(), Buffer:ReadFloat32()
+		local r00, r01, r02 = Buffer:ReadFloat32(), Buffer:ReadFloat32(), Buffer:ReadFloat32()
+		local r10, r11, r12 = Buffer:ReadFloat32(), Buffer:ReadFloat32(), Buffer:ReadFloat32()
+		local r20, r21, r22 = Buffer:ReadFloat32(), Buffer:ReadFloat32(), Buffer:ReadFloat32()
+		
+		return CFrame.new(x, y, z, r00, r01, r02, r10, r11, r12, r20, r21, r22)
 	end,
 	["UDim2"] = function(Buffer, Property)
 		local XScale = Buffer:ReadFloat32()
