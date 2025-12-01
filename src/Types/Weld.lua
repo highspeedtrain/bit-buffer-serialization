@@ -8,7 +8,7 @@ Weld.Properties = {
 }
 
 Weld.Provides = {
-	["Weld"] = 21,
+	["Weld"] = 32,
 }
 
 Weld.Requires = {
